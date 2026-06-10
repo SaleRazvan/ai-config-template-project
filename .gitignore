@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+podman-installer-macos-universal.pkg*
 
 node_modules
 dist
