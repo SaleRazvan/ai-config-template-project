@@ -11,8 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Say hello
-        run: echo "GitHub Actions is working!"
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
 
-      - name: Show files
-        run: ls -la
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run tests
+        run: yarn test
