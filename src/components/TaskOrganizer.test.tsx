@@ -1,7 +1,9 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import TaskOrganizer from './TaskOrganizer'
+
+const TASK_STORAGE_KEY = 'task-organizer.tasks'
 
 function setup() {
   const user = userEvent.setup()
@@ -16,7 +18,42 @@ async function addTask(user: ReturnType<typeof userEvent.setup>, title: string) 
   await user.click(screen.getByRole('button', { name: 'Add' }))
 }
 
+function getStoredTasks() {
+  const storedTasks = globalThis.localStorage.getItem(TASK_STORAGE_KEY)
+
+  return storedTasks ? JSON.parse(storedTasks) : null
+}
+
 describe('TaskOrganizer', () => {
+  beforeEach(() => {
+    globalThis.localStorage.clear()
+  })
+
+  it('loads saved tasks from localStorage', () => {
+    globalThis.localStorage.setItem(
+      TASK_STORAGE_KEY,
+      JSON.stringify([{ id: 7, title: 'Resume saved task' }]),
+    )
+
+    setup()
+
+    expect(screen.getByText('Resume saved task')).toBeInTheDocument()
+    expect(screen.getByText('1 active')).toBeInTheDocument()
+  })
+
+  it('ignores invalid saved task data', () => {
+    globalThis.localStorage.setItem(
+      TASK_STORAGE_KEY,
+      JSON.stringify([{ id: 'not-a-number', title: '' }]),
+    )
+
+    expect(() => setup()).not.toThrow()
+    expect(
+      screen.getByText('No tasks yet. Add one to start organizing.'),
+    ).toBeInTheDocument()
+    expect(screen.queryByRole('listitem')).not.toBeInTheDocument()
+  })
+
   it('adds a task from a trimmed title', async () => {
     const { user } = setup()
 
@@ -24,6 +61,7 @@ describe('TaskOrganizer', () => {
 
     expect(screen.getByText('Review project notes')).toBeInTheDocument()
     expect(screen.getByLabelText('Task title')).toHaveValue('')
+    expect(getStoredTasks()).toEqual([{ id: 1, title: 'Review project notes' }])
   })
 
   it('edits an existing task without duplicating it', async () => {
@@ -38,6 +76,7 @@ describe('TaskOrganizer', () => {
     expect(screen.getByText('Publish release notes')).toBeInTheDocument()
     expect(screen.queryByText('Draft release notes')).not.toBeInTheDocument()
     expect(screen.getAllByRole('listitem')).toHaveLength(1)
+    expect(getStoredTasks()).toEqual([{ id: 1, title: 'Publish release notes' }])
   })
 
   it('deletes a task', async () => {
@@ -50,6 +89,7 @@ describe('TaskOrganizer', () => {
     expect(
       screen.getByText('No tasks yet. Add one to start organizing.'),
     ).toBeInTheDocument()
+    expect(getStoredTasks()).toEqual([])
   })
 
   it('rejects empty add and save submissions', async () => {

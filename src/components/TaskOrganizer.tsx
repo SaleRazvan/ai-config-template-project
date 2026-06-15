@@ -1,21 +1,73 @@
 import { useRef, useState } from 'react'
-import type { FormEvent } from 'react'
+import type { SubmitEventHandler } from 'react'
 
 type Task = {
   id: number
   title: string
 }
 
+const TASK_STORAGE_KEY = 'task-organizer.tasks'
+
+function isStoredTask(value: unknown): value is Task {
+  if (typeof value !== 'object' || value === null) {
+    return false
+  }
+
+  const task = value as { id?: unknown; title?: unknown }
+
+  return (
+    typeof task.id === 'number' &&
+    Number.isInteger(task.id) &&
+    typeof task.title === 'string' &&
+    task.title.trim().length > 0
+  )
+}
+
+function readStoredTasks(storage?: Storage): Task[] {
+  try {
+    const storedTasks = (storage ?? globalThis.localStorage).getItem(TASK_STORAGE_KEY)
+
+    if (!storedTasks) {
+      return []
+    }
+
+    const parsedTasks: unknown = JSON.parse(storedTasks)
+
+    if (!Array.isArray(parsedTasks) || !parsedTasks.every(isStoredTask)) {
+      return []
+    }
+
+    return parsedTasks
+  } catch {
+    return []
+  }
+}
+
+function writeStoredTasks(tasks: Task[], storage?: Storage) {
+  try {
+    (storage ?? globalThis.localStorage).setItem(
+      TASK_STORAGE_KEY,
+      JSON.stringify(tasks),
+    )
+  } catch {
+    // Storage may be unavailable in private browsing or restricted environments.
+  }
+}
+
+function getNextTaskId(tasks: Task[]) {
+  return tasks.reduce((nextId, task) => Math.max(nextId, task.id + 1), 1)
+}
+
 function TaskOrganizer() {
-  const [tasks, setTasks] = useState<Task[]>([])
+  const [tasks, setTasks] = useState<Task[]>(readStoredTasks)
   const [newTitle, setNewTitle] = useState('')
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editTitle, setEditTitle] = useState('')
   const [addError, setAddError] = useState('')
   const [editError, setEditError] = useState('')
-  const nextId = useRef(1)
+  const nextId = useRef(getNextTaskId(tasks))
 
-  const addTask = (event: FormEvent<HTMLFormElement>) => {
+  const addTask: SubmitEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
 
     const title = newTitle.trim()
@@ -24,10 +76,10 @@ function TaskOrganizer() {
       return
     }
 
-    setTasks((currentTasks) => [
-      ...currentTasks,
-      { id: nextId.current++, title },
-    ])
+    const updatedTasks = [...tasks, { id: nextId.current++, title }]
+
+    setTasks(updatedTasks)
+    writeStoredTasks(updatedTasks)
     setNewTitle('')
     setAddError('')
   }
@@ -44,7 +96,7 @@ function TaskOrganizer() {
     setEditError('')
   }
 
-  const saveEdit = (event: FormEvent<HTMLFormElement>) => {
+  const saveEdit: SubmitEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
 
     const title = editTitle.trim()
@@ -53,18 +105,20 @@ function TaskOrganizer() {
       return
     }
 
-    setTasks((currentTasks) =>
-      currentTasks.map((task) =>
-        task.id === editingId ? { ...task, title } : task,
-      ),
+    const updatedTasks = tasks.map((task) =>
+      task.id === editingId ? { ...task, title } : task,
     )
+
+    setTasks(updatedTasks)
+    writeStoredTasks(updatedTasks)
     cancelEdit()
   }
 
   const deleteTask = (taskId: number) => {
-    setTasks((currentTasks) =>
-      currentTasks.filter((task) => task.id !== taskId),
-    )
+    const updatedTasks = tasks.filter((task) => task.id !== taskId)
+
+    setTasks(updatedTasks)
+    writeStoredTasks(updatedTasks)
 
     if (editingId === taskId) {
       cancelEdit()

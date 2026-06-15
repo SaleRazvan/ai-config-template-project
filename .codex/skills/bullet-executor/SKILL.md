@@ -61,10 +61,13 @@ If the same permission is still required after incorporating the user's reply, r
 For the selected bullet:
 
 1. Perform only the implementation or validation work required by that bullet.
-2. Run the smallest useful verification for that bullet. If the selected bullet is itself a validation command, run that command.
-3. If the bullet is complete, update the plan file by changing only that bullet from `- [ ]` to `- [x]`.
-4. If the bullet is blocked or only partially complete, leave it unchecked and add a concise note under a `## Blocked Notes` section in the plan file.
-5. Stop. Do not continue to the next unchecked bullet.
+2. Review the changed diff for introduced deprecated APIs, types, imports, framework patterns, or warnings that normal tests may not fail on.
+3. When touching TypeScript or framework-typed code, check the installed local typings or official local docs for the current specific API when an imported type or helper is marked deprecated. For React form submits, use `SubmitEventHandler<HTMLFormElement>` instead of deprecated `FormEvent` or `FormEventHandler`.
+4. Run a targeted text search for any known deprecated symbol introduced or modified by the bullet, for example `rg "FormEvent|FormEventHandler"` after replacing deprecated React form event types.
+5. Run the smallest useful verification for that bullet. If the selected bullet is itself a validation command, run that command.
+6. If the bullet is complete, update the plan file by changing only that bullet from `- [ ]` to `- [x]`.
+7. If the bullet is blocked or only partially complete, leave it unchecked and add a concise note under a `## Blocked Notes` section in the plan file.
+8. Stop. Do not continue to the next unchecked bullet.
 
 ## Boundaries
 
@@ -83,5 +86,6 @@ Report:
 - Selected bullet.
 - Whether it was completed or blocked.
 - Verification performed.
+- Deprecated API/type sweep performed, when relevant.
 - Files changed.
 - The next unchecked bullet, if one remains.
