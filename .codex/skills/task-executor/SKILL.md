@@ -50,11 +50,14 @@ If the same permission is still required after incorporating the user's reply, r
 Work through the checklist in this order:
 
 1. Execute the first unchecked `## Implementation Plan` bullet.
-2. Verify that specific bullet enough to know it is complete.
-3. Mark that bullet complete in the plan file by changing `- [ ]` to `- [x]`.
-4. Continue with the next unchecked implementation bullet until none remain.
-5. Execute each unchecked `## Validation Plan` bullet.
-6. Mark each validation bullet complete only after the command or manual check succeeds.
+2. Review the changed diff for introduced deprecated APIs, types, imports, framework patterns, or warnings that normal tests may not fail on.
+3. When touching TypeScript or framework-typed code, check the installed local typings or official local docs for the current specific API when an imported type or helper is marked deprecated. For React form submits, use `SubmitEventHandler<HTMLFormElement>` instead of deprecated `FormEvent` or `FormEventHandler`.
+4. Run a targeted text search for any known deprecated symbol introduced or modified by the bullet, for example `rg "FormEvent|FormEventHandler"` after replacing deprecated React form event types.
+5. Verify that specific bullet enough to know it is complete.
+6. Mark that bullet complete in the plan file by changing `- [ ]` to `- [x]`.
+7. Continue with the next unchecked implementation bullet until none remain.
+8. Execute each unchecked `## Validation Plan` bullet.
+9. Mark each validation bullet complete only after the command or manual check succeeds.
 
 When a validation bullet fails because of implementation defects, fix the defects and rerun the validation. Keep going until validation passes or a blocker is reached.
 
@@ -77,5 +80,6 @@ Report:
 - Branch used.
 - Implementation bullets completed.
 - Validation bullets completed, including exact commands run.
+- Deprecated API/type sweeps performed, when relevant.
 - Any files changed.
 - Any blockers, skipped checks, or assumptions.
