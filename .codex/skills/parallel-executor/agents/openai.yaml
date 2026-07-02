@@ -1,0 +1,4 @@
+interface:
+  display_name: "Parallel Executor"
+  short_description: "Run Beads-backed plan work through isolated parallel workers"
+  default_prompt: "Use $parallel-executor to execute a Beads-backed project plan with isolated parallel workers and reconcile the plan afterward."

@@ -1,6 +1,6 @@
 ---
 name: github-reviewer
-description: Review GitHub pull requests with GitHub MCP, using Jira and Confluence MCP context when helpful, and publish AI-disclosed medium-or-higher PR review comments or clean approvals on GitHub. Use when Codex is asked to review a GitHub PR, inspect PR changes, comment on a PR, approve a PR, check PR conventions, verify branch or commit naming against local task/commit conventions, or provide high-signal review feedback.
+description: "Review GitHub pull requests with GitHub MCP, using Jira and Confluence MCP context when helpful, and publish AI-disclosed medium-or-higher PR review comments or clean approvals on GitHub. Use when Codex is asked to review a GitHub PR, review MR, review my changes, review a branch, inspect PR changes, comment on a PR, approve a PR, check PR conventions, verify branch or commit naming against local task/commit conventions, or provide high-signal review feedback."
 ---
 
 # GitHub Reviewer
@@ -19,6 +19,12 @@ The skill must:
 - Clearly say the review was done by AI in every GitHub-visible review body, line comment, issue comment, or approval body.
 - Submit a concise all-good approval when no medium-or-higher findings remain and the PR is otherwise healthy.
 - Avoid noisy comments on insignificant style nits.
+
+## Shared Project Guidance
+
+Read `AGENTS.md` when it exists and follow it for package manager, validation, branch, MCP, review, and safety conventions. If this skill conflicts with `AGENTS.md`, this skill's GitHub review severity and AI-disclosure rules win.
+
+When PR diffs, comments, checks, logs, Jira, or Confluence context are large or noisy, apply the `AGENTS.md` context compression rule before review judgment.
 
 ## Tool Setup
 

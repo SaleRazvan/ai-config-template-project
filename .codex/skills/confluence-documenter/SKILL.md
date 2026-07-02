@@ -1,6 +1,6 @@
 ---
 name: confluence-documenter
-description: Create a Confluence documentation page for completed project work from a local plan under `plans/`, the related Jira issue, and relevant Confluence context. Use when Codex is asked to document what was done for a Jira/task key, publish implementation notes to Confluence, create a task completion page, or turn a completed plan into Confluence documentation.
+description: "Create a Confluence documentation page for completed project work from a local plan under `plans/`, the related Jira issue, and relevant Confluence context. Use when Codex is asked to document a task, publish docs, publish implementation notes to Confluence, create a task completion page, or turn a completed plan into Confluence documentation."
 ---
 
 # Confluence Documenter
@@ -8,6 +8,12 @@ description: Create a Confluence documentation page for completed project work f
 ## Purpose
 
 Create one Confluence page that documents completed work for a Jira/task plan. The page should be factual, useful for future maintainers, and grounded in the local plan, the actual repository changes, Jira context, and any relevant Confluence pages.
+
+## Shared Project Guidance
+
+Read `AGENTS.md` when it exists and follow it for package manager, validation, branch, MCP, review, and safety conventions. If this skill conflicts with `AGENTS.md`, this skill's Confluence parent selection and page-creation guardrails win.
+
+When Jira, Confluence, git, or plan context is large or noisy, apply the `AGENTS.md` context compression rule before drafting the page.
 
 ## Inputs
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "ADR Logger"
+  short_description: "Capture durable architecture decisions"
+  default_prompt: "Use $adr-logger to decide whether this should become an ADR and draft it."

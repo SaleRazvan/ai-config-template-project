@@ -1,6 +1,6 @@
 ---
 name: conventional-committer
-description: "Create and push git commits for the user using the Conventional Commits subject format and always include a Jira issue key in the commit message. Use when Codex is asked to commit changes, make a commit, write a commit message, prepare a git commit, or commit and push with a structured message such as type(scope): description. Always require explicit user confirmation before running git commit or git push."
+description: "Create and push git commits for the user using the Conventional Commits subject format and always include a Jira issue key in the commit message. Use when Codex is asked to commit changes, commit everything, commit all staged changes, make a commit, write a commit message, prepare a git commit, or commit and push with a structured message such as type(scope): description. Always require explicit user confirmation before running git commit or git push."
 ---
 
 # Conventional Committer
@@ -22,6 +22,12 @@ Refs: <JIRA-KEY>
 ```
 
 Add an additional body only when the user explicitly asks for one or when required by the repository's existing commit style. After a confirmed successful commit, push the new commit using the confirmed normal push command.
+
+## Shared Project Guidance
+
+Read `AGENTS.md` when it exists and follow it for package manager, validation, branch, MCP, review, and safety conventions. If this skill conflicts with `AGENTS.md`, this skill's explicit commit and push confirmation rules win.
+
+When staged diffs, plans, Jira, or Confluence context are large or noisy, apply the `AGENTS.md` context compression rule before writing the commit message.
 
 ## Required Workflow
 

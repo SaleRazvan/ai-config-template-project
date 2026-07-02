@@ -24,3 +24,6 @@ env = { "SONARQUBE_ORG" = "ai-config-template-project" }
 
 [mcp_servers.figma]
 url = "https://mcp.figma.com/mcp"
+
+[features]
+hooks = true

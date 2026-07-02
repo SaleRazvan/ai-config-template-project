@@ -1,7 +1,17 @@
 ---
 name: jira-story-writer
-description: Draft Jira stories, tasks, bugs, and subtasks from requirements, code changes, PRs, or discussions.
+description: "Draft Jira stories, tasks, bugs, and subtasks from requirements, code changes, PRs, or discussions. Use when the user asks to write a Jira story, create a ticket, draft a PM chore, turn requirements into Jira work, or assign work to a sprint/user."
 ---
+
+# Jira Story Writer
+
+## Shared Project Guidance
+
+Read `AGENTS.md` when it exists and follow it for package manager, validation, branch, MCP, review, and safety conventions. If this skill conflicts with `AGENTS.md`, this skill's Jira draft and confirmation guardrails win.
+
+When requirements, PRs, Jira threads, or repository context are large or noisy, apply the `AGENTS.md` context compression rule before drafting tickets.
+
+## Ticket Drafting
 
 When asked to create Jira tickets:
 
