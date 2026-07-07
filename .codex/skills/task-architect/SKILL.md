@@ -1,6 +1,6 @@
 ---
 name: task-architect
-description: "Plan implementation work from a task source such as a Jira ticket. Use when Codex is asked to architect, plan, inspect, or break down a task before implementation: fetch the ticket or requirements, ask questions when requirements are unclear, create a work branch from the task key and summary, and write an ordered bullet-by-bullet Markdown checklist in the project for a later executor skill."
+description: "Plan implementation work from a task source such as a Jira ticket. Use when Codex is asked to architect, plan, inspect, or break down a task before implementation, plan a branch id, prepare a Jira task, or turn a requirement into a local plan: fetch the ticket or requirements, ask questions when requirements are unclear, create a work branch from the task key and summary, and write an ordered bullet-by-bullet Markdown checklist in the project for a later executor skill."
 ---
 
 # Task Architect
@@ -15,6 +15,12 @@ The skill must:
 - Create a new work branch using the required naming convention.
 - Write an ordered bullet-by-bullet plan file inside the project.
 - Stop after planning. Do not implement, commit, push, or transition Jira.
+
+## Shared Project Guidance
+
+Read `AGENTS.md` when it exists and follow it for package manager, validation, branch, MCP, review, and safety conventions. If this skill conflicts with `AGENTS.md`, this skill's planning-only boundary wins.
+
+When Jira, Confluence, comments, attachments, or repository context are large or noisy, apply the `AGENTS.md` context compression rule before creating the plan.
 
 ## Required Inputs
 

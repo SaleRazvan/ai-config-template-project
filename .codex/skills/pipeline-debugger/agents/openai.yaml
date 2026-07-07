@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pipeline Debugger"
+  short_description: "Diagnose failing CI and pipeline logs"
+  default_prompt: "Use $pipeline-debugger to inspect failing checks and summarize the likely fix."
